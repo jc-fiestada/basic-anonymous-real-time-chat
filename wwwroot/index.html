@@ -7,36 +7,30 @@
 </head>
 <body>
   <header>
-    <h1>Online: <span id="counter">5</span></h1>
+    <h1>Online: <span id="counter">0</span></h1>
   </header>
 
   <main class="container">
     <!-- Left: World Chat -->
     <section class="chat">
       <h2>🌍 World Chat</h2>
-      <ul>
-        <li><strong>Default Profile:</strong> Hello everyone!</li>
-        <li><strong>AU:</strong> Hi, I’m anonymous.</li>
-        <li><strong>Default Profile:</strong> Dark theme looks cool.</li>
-        <li><strong>AU:</strong> Agreed 👍</li>
+      <ul id="world-chat-list">
+        
       </ul>
     </section>
 
     <!-- Right: Comment Form -->
     <aside class="form">
       <h2>💬 Send a Message</h2>
-      <form>
-        <label>
-          Name:
-          <input type="text" placeholder="Your name">
-        </label>
-        <label>
-          Message:
-          <textarea rows="4" placeholder="Type your message"></textarea>
-        </label>
+      <form id="user-form">
+        <label> Name: </label>
+        <input id="user" type="text" placeholder="Your name">
+        <label> Message: </label>
+        <input id="message" type="text" placeholder="Type your message">
         <button type="submit">Send</button>
       </form>
     </aside>
   </main>
+  <script src="dist/index.js"></script>
 </body>
 </html>

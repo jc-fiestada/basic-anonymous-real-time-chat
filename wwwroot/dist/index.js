@@ -2857,5 +2857,33 @@
   }
 
   // wwwroot/src/index.ts
-  var connection = new HubConnectionBuilder().withUrl("").build();
+  var userForm = document.getElementById("user-form");
+  var worldChat = document.getElementById("world-chat-list");
+  var counter = document.getElementById("counter");
+  var connection = new HubConnectionBuilder().withUrl("mini-chat-connection").withAutomaticReconnect().build();
+  connection.on("user-count-changed", (userCount) => {
+    counter.innerText = `${userCount}`;
+  });
+  connection.on("message-received", (messageData) => {
+    worldChat.innerHTML += `<li><strong>${messageData.user}:</strong> ${messageData.message} - ${messageData.date}}</li>`;
+  });
+  connection.onreconnected((userId) => {
+    alert(`Successfully Reconnected - UserId(${userId})`);
+  });
+  connection.onreconnecting((error) => {
+    alert(`Error: ${error}`);
+  });
+  function SendMessageListener() {
+    userForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const message = document.getElementById("message");
+      const user = document.getElementById("user");
+      await connection.invoke("SendMessage", message.value, user.value);
+    });
+  }
+  function start() {
+    connection.start();
+    SendMessageListener();
+  }
+  start();
 })();

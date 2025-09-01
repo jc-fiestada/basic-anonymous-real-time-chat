@@ -10,7 +10,7 @@ namespace MiniChat.RealTimeConnection
         public async override Task OnConnectedAsync()
         {
             UserId.Add(Context.ConnectionId);
-            await Clients.All.SendAsync("/user-count-changed", UserId.Count);
+            await Clients.All.SendAsync("/user-count-changed", UserId.Count());
             await base.OnConnectedAsync();
         }
 
@@ -21,10 +21,10 @@ namespace MiniChat.RealTimeConnection
             await base.OnDisconnectedAsync(exception);
         }
 
-        public async void SendMessage(string message, string user)
+        public async Task SendMessage(string message, string user)
         {
             MessageDb database = new MessageDb();
-            DateTime date = DateTime.Today;
+            DateTime date = DateTime.Now;
 
             database.InsertMessage(message, user, date);
 
