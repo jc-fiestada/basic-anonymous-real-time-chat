@@ -15,16 +15,16 @@ namespace MiniChat.DBServices
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText = @"CREATE TABLE IF NOT EXISTS messages (
-                    user TEXT,
-                    message TEXT,
-                    dateCreated DATETIME DEFAULT CURRENT_TIMESTAMP
+                        user TEXT,
+                        message TEXT,
+                        dateCreated DATETIME DEFAULT CURRENT_TIMESTAMP
                     );";
                     command.ExecuteNonQuery();
                 }
             }
         }
 
-        public void InsertMessage(string message, string user)
+        public void InsertMessage(string message, string user, DateTime date)
         {
             InitializeTable();
             using (var connection = new SqliteConnection($"Data Source={Filename}"))
@@ -32,9 +32,10 @@ namespace MiniChat.DBServices
                 connection.Open();
                 using (var command = connection.CreateCommand())
                 {
-                    command.CommandText = "INSERT INTO messages (message, user) VALUES (@message, @user)";
+                    command.CommandText = "INSERT INTO messages (message, user, dateCreated) VALUES (@message, @user, @dateCreated)";
                     command.Parameters.AddWithValue("@message", message);
                     command.Parameters.AddWithValue("@user", user);
+                    command.Parameters.AddWithValue("@dateCreated", date);
                     command.ExecuteNonQuery();
                 }
             }
@@ -60,7 +61,7 @@ namespace MiniChat.DBServices
                             MessageRequestDto messageInfo = new MessageRequestDto();
                             messageInfo.User = reader["user"].ToString()!;
                             messageInfo.Message = reader["message"].ToString();
-                            messageInfo.date = DateTime.Parse(reader["dateCreated"].ToString()!);
+                            messageInfo.Date = DateTime.Parse(reader["dateCreated"].ToString()!);
 
                             messages.Add(messageInfo);
                         }
