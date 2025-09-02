@@ -2881,9 +2881,23 @@
       await connection.invoke("SendMessage", message.value, user.value);
     });
   }
+  function AllMessage() {
+    document.addEventListener("DOMContentLoaded", async () => {
+      const response = await fetch("/get-all-messages", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+      });
+      const data = await response.json();
+      console.table(data);
+      data.forEach((msg) => {
+        worldChat.innerHTML += `<li><strong>${msg.user}:</strong> ${msg.message} - ${msg.date}</li>`;
+      });
+    });
+  }
   function start() {
     connection.start();
     SendMessageListener();
+    AllMessage();
   }
   start();
 })();

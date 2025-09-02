@@ -10,14 +10,14 @@ namespace MiniChat.RealTimeConnection
         public async override Task OnConnectedAsync()
         {
             UserId.Add(Context.ConnectionId);
-            await Clients.All.SendAsync("/user-count-changed", UserId.Count());
+            await Clients.All.SendAsync("user-count-changed", UserId.Count());
             await base.OnConnectedAsync();
         }
 
         public async override Task OnDisconnectedAsync(Exception? exception)
         {
             UserId.Remove(Context.ConnectionId);
-            await Clients.All.SendAsync("/user-count-changed", UserId.Count());
+            await Clients.All.SendAsync("user-count-changed", UserId.Count());
             await base.OnDisconnectedAsync(exception);
         }
 

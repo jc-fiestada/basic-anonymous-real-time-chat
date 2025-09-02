@@ -12,7 +12,7 @@ app.UseRouting();
 app.MapHub<Connection>("/mini-chat-connection");
 
 
-app.MapGet("/GetAllMessage", () =>
+app.MapGet("/get-all-messages", () =>
 {
     MessageDb database = new MessageDb();
     
